@@ -1,0 +1,17 @@
+.grid-list {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  align-content: flex-start;
+  padding: 10px;
+  background-color: #ccc;
+  height: 100vh;
+}
+
+.grid-item {
+  background-color: white;
+  margin: 1px;
+  padding: 5px;
+}

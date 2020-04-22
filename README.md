@@ -1,2 +1,0 @@
-# reactGiphy
-Created with CodeSandbox
