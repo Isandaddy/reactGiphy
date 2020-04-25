@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-//import ReactDOM from "react-dom";
+import Modal from "./Modal";
 import "./List.css";
 import Axios from "axios";
 
@@ -27,19 +27,21 @@ function getList(url) {
 
 const List = () => {
   const { payload, loading, error } = getList(
-    "https://api.giphy.com/v1/gifs/search?api_key=UEhnkXgVuQ6kXADUp5Kh1bpbj0v4YeFh&q=spiderman&limit=12&offset=0&rating=G&lang=en"
+    "https://api.giphy.com/v1/gifs/search?api_key=UEhnkXgVuQ6kXADUp5Kh1bpbj0v4YeFh&q=spiderman&limit=15&offset=0&rating=G&lang=en"
   );
+  const [imageToggle, handleImage] = useState(false);
+
+  const [modalId, setModalId] = useState("");
+
+  const imageState = id => {
+    handleImage(!imageToggle);
+    setModalId(id);
+  };
 
   return (
     <section>
       <article>
         <div className="grid-list">
-          {/* <div className="grid-item">gird-list1</div>
-          <div className="grid-item">gird-list2</div>
-          <div className="grid-item">gird-list3</div>
-          <div className="grid-item">gird-list4</div>
-          <div className="grid-item">gird-list5</div>
-          <div className="grid-item">gird-list6</div> */}
           {loading && (
             <div className="grid-item">
               <span>loading</span>
@@ -51,15 +53,24 @@ const List = () => {
             </div>
           )}
           {!loading && payload && (
-            <div>
+            <div className="btn-img">
               {payload.data.map(listItem => (
-                <img
-                  className="grid-item"
-                  key={listItem.id}
-                  id={listItem.id}
-                  src={listItem.images.fixed_height.url}
-                  alt=""
-                />
+                <>
+                  <img
+                    onClick={() => imageState(listItem.id)}
+                    className={`grid-item ${imageToggle && "toggle"}`}
+                    key={listItem.id}
+                    id={listItem.id}
+                    src={listItem.images.original.url}
+                    alt=""
+                  />
+                  <Modal
+                    imageToggle={imageToggle}
+                    payload={listItem}
+                    modalId={modalId}
+                    onClose={imageState}
+                  />
+                </>
               ))}
             </div>
           )}
